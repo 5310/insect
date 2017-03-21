@@ -49,10 +49,10 @@ insectLanguage = LanguageDef
   , nestedComments: false
   , identStart: letter <|> char '_'
   , identLetter: identLetter
-  , opStart: oneOf ['+', '-', '*', '·', '/', '^', '=', '²', '³']
+  , opStart: oneOf ['+', '-', '*', '·', '×', '/', '÷', '^', '=', '²', '³']
   , opLetter: oneOf ['>', '*']
   , reservedNames: ["help", "?", "list", "ls", "reset", "clear"]
-  , reservedOpNames: ["->", "+", "-", "*", "/", "^", "**", "=", "²", "³"]
+  , reservedOpNames: ["->", "+", "-", "*", "×", "/", "÷", "^", "**", "=", "²"]
   , caseSensitive: true
 }
 
@@ -115,7 +115,8 @@ siPrefix =
   <|> (string "f" *> pure femto)
   <|> (string "p" *> pure pico)
   <|> (string "n" *> pure nano)
-  <|> (string "µ" *> pure micro)
+  <|> (string "µ" *> pure micro) -- Micro sign U+00B5
+  <|> (string "μ" *> pure micro) -- Greek small letter mu U+039C
   <|> (string "m" *> pure milli)
   <|> (string "c" *> pure centi)
   <|> (string "d" *> pure deci)
@@ -313,8 +314,8 @@ expression =
     powOp = reservedOp "^" <|> reservedOp "**"
     sqrOp = reservedOp "²"
     cubOp = reservedOp "³"
-    divOp = reservedOp "/"
-    mulOp = reservedOp "*" <|> reservedOp "·"
+    divOp = reservedOp "/" <|> reservedOp "÷"
+    mulOp = reservedOp "*" <|> reservedOp "·" <|> reservedOp "×"
     subOp = reservedOp "-"
     addOp = reservedOp "+"
     arrOp = reservedOp "->"
